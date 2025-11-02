@@ -1,0 +1,2 @@
+https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/security-settings/
+
