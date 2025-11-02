@@ -14,33 +14,61 @@
 #
 # Use a descriptive name for your cluster:
 #
-#cluster.name: my-application
+cluster.name: daddy-opensearch-cluster
+cluster.allocator.existing_shards_allocator.batch_enabled: true
+#i do 3 times for each lor, assuming 1 failed
+cluster.fault_detection.follower_check.retry_count: 6
+#tbh idk leh 1s like very frequent no meh gong gong dai dai idk why every1 follow
+cluster.fault_detection.leader_check.interval: 3s
+#3 seems fair LOL
+cluster.fault_detection.leader_check.retry_count: 3
+#I using for own use nia no need 500
+cluster.indices.tombstones.size: 10
+#NO LIMIT BB
+cat.indices.response.limit.number_of_indices: -1
+cat.shards.response.limit.number_of_shards: -1
+cat.segments.response.limit.number_of_indices: -1
+
+#fair
+indices.memory.index_buffer_size: 10%
+
+#eh agar2
+indices.memory.min_index_buffer_size: 200mb
+indices.memory.max_index_buffer_size: 400mb
+indices.queries.cache.size: 10%
+indices.cache.cleanup_interval: 1m
+indices.requests.cache.size: 5%
+
+search.keep_alive_interval: 2m
+search.highlight.term_vector_multi_value: false
+script.cache.max_size: 200
 #
 # ------------------------------------ Node ------------------------------------
 #
 # Use a descriptive name for the node:
 #
-#node.name: node-1
-#
+node.name: node2
+node.roles: [ data, ingest ]
 # Add custom attributes to the node:
 #
-#node.attr.rack: r1
+node.attr.tenant: opensearch
+node.attr.source: daddys-laptop
 #
 # ----------------------------------- Paths ------------------------------------
 #
 # Path to directory where to store the data (separate multiple locations by comma):
 #
-#path.data: /path/to/data
+path.data: ${OS_CLS_HOME}/node2/data
 #
 # Path to log files:
 #
-#path.logs: /path/to/logs
+path.logs: ${OS_CLS_HOME}/node2/logs
 #
 # ----------------------------------- Memory -----------------------------------
 #
 # Lock the memory on startup:
 #
-#bootstrap.memory_lock: true
+bootstrap.memory_lock: true
 #
 # Make sure that the heap size is set to about half the memory available
 # on the system and that the owner of the process is allowed to use this
@@ -52,41 +80,126 @@
 #
 # Set the bind address to a specific IP (IPv4 or IPv6):
 #
-#network.host: 192.168.0.1
+network.host: 100.75.9.6
+#1 machine 3 nodes HEEEHEEE
+network.bind_host: 100.75.9.6
+network.publish_host: 100.75.9.6
+#http
+http.host: osnode2.han.gg
+#1 machine 3 nodes HEEEHEEE
+http.bind_host: osnode2.han.gg
+http.publish_host: osnode2.han.gg
 #
 # Set a custom port for HTTP:
 #
-#http.port: 9200
+http.port: 9200
+transport.port: 9300
 #
 # For more information, consult the network module documentation.
+
+#of course can la I using 1 machine for 3 nodes ma
+network.tcp.reuse_address: true 
 #
 # --------------------------------- Discovery ----------------------------------
-#
-# Pass an initial list of hosts to perform discovery when this node is started:
-# The default list of hosts is ["127.0.0.1", "[::1]"]
-#
-#discovery.seed_hosts: ["host1", "host2"]
-#
+# this is where you insert if one is cluster-manager-eligible, since im using only 1 machine, i guess cannot lor. idk why they can't provide as hostnames instead.
+discovery.seed_hosts: ["100.75.9.6"]
+discovery.type: multi-node
+
 # Bootstrap the cluster using an initial set of cluster-manager-eligible nodes:
 #
-#cluster.initial_cluster_manager_nodes: ["node-1", "node-2"]
+cluster.initial_cluster_manager_nodes: ["node2", "node2", "node3"]
 #
+# Dont need spam la hor data loss abit ok huan
+discovery.find_peers_interval: 30s 
+discovery.probe.handshake_timeout: 3s
 # For more information, consult the discovery and cluster formation module documentation.
 #
 # ---------------------------------- Gateway -----------------------------------
 #
 # Block initial recovery after a full cluster restart until N nodes are started:
 #
-#gateway.recover_after_data_nodes: 3
-#
+gateway.recover_after_nodes: 2
+gateway.recover_after_data_nodes: 3
+#description in docs like cock bodoh
+gateway.expected_data_nodes: 3
+gateway.recover_after_time: 60m
 # For more information, consult the gateway module documentation.
 #
 # ---------------------------------- Various -----------------------------------
 #
 # Require explicit names when deleting indices:
 #
-#action.destructive_requires_name: true
+action.destructive_requires_name: true
 #
+# ---------------------------------- SECURITY -----------------------------------
+plugins.security.nodes_dn: 
+plugins.security.authcz.admin_dn: 
+plugins.security.roles_mapping_resolution: BACKENDROLES_ONLY 
+
+plugins.security.restapi.roles_enabled: ["all_access", "security_rest_api_access"]
+# plugins.security.allow_default_init_securityindex: true
+plugins.security.system_indices.permission.enabled: true
+plugins.security.config_index_name: daddy_han_security_config
+plugins.security.cert.oid:
+plugins.security.enable_snapshot_restore_privilege: false
+plugins.security.check_snapshot_restore_write_privileges: false 
+plugins.security.enable_snapshot_restore_privilege: false 
+plugins.security.check_snapshot_restore_write_privileges: false
+plugins.security.cache.ttl_minutes: 10
+plugins.security.protected_indices.enabled: true 
+plugins.security.protected_indices.roles: []
+plugins.security.protected_indices.indices: []
+plugins.security.system_indices.enabled: true 
+plugins.security.system_indices.indices: [".opendistro-alerting-config", ".opendistro-alerting-alert*", ".opendistro-anomaly-results*", ".opendistro-anomaly-detector*", ".opendistro-anomaly-checkpoints", ".opendistro-anomaly-detection-state", ".opendistro-reports-*", ".opendistro-notifications-*", ".opendistro-notebooks", ".opendistro-asynchronous-search-response*"]
+plugins.security.restapi.password_validation_regex: '(?=.*[A-Z])(?=.*[^a-zA-Z\d])(?=.*[0-9])(?=.*[a-z]).{12,}'
+plugins.security.restapi.password_validation_error_message: "Mai xia suey need stronger pw"
+plugins.security.password.hashing.algorithm: Bcrypt
+plugins.security.password.hashing.bcrypt.rounds: 12
+plugins.security.password.hashing.bcrypt.minor: Y
+
+plugins.security.audit.enable_rest: true
+plugins.security.audit.threadpool.size: 10
+plugins.security.audit.threadpool.max_queue_len: 100000
+plugins.security.audit.ignore_users: ["Simon"]
+plugins.security.audit.type: internal_opensearch
+plugins.security.audit.config.index: daddy_han_audit_logs
+plugins.security.audit.config.type: auditlog
+
+plugins.security.ssl.http.clientauth_mode: REQUIRE
+
+plugins.security.ssl.http.enabled_ciphers:
+  - "TLS_DHE_RSA_WITH_AES_256_CBC_SHA"
+  - "TLS_DHE_DSS_WITH_AES_128_CBC_SHA256"
+plugins.security.ssl.http.enabled_protocols:
+  - "TLSv1.1"
+  - "TLSv1.2"
+
+#lmao dont need - just use filepath
+# #for key and cert
+# plugins.security.ssl.transport.keystore_type: JKS
+# #specified using relative path, to config dir
+# plugins.security.ssl.transport.keystore_filepath: 
+# plugins.security.ssl.transport.keystore_alias: daddy-opensearch-keystore
+# plugins.security.ssl.transport.keystore_password:
+
+# #for CA
+# plugins.security.ssl.transport.truststore_type: JKS
+# plugins.security.ssl.transport.truststore_filepath: 
+# plugins.security.ssl.transport.truststore_alias: daddy-opensearch-truststore
+# plugins.security.ssl.transport.truststore_password:
+
+plugins.security.ssl.transport.enabled: true
+plugins.security.ssl.transport.pemkey_filepath:
+plugins.security.ssl.transport.pemkey_password:
+plugins.security.ssl.transport.pemcert_filepath:
+plugins.security.ssl.transport.pemtrustedcas_filepath:
+
+plugins.security.ssl.http.enabled: true 
+plugins.security.ssl.http.pemkey_filepath:
+plugins.security.ssl.http.pemkey_password:
+plugins.security.ssl.http.pemcert_filepath:
+plugins.security.ssl.http.pemtrustedcas_filepath:
+
 # ---------------------------------- Remote Store -----------------------------------
 # Controls whether cluster imposes index creation only with remote store enabled
 # cluster.remote_store.enabled: true
