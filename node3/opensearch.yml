@@ -107,7 +107,7 @@ discovery.type: multi-node
 
 # Bootstrap the cluster using an initial set of cluster-manager-eligible nodes:
 #
-cluster.initial_cluster_manager_nodes: ["node3", "node3", "node3"]
+cluster.initial_cluster_manager_nodes: ["node1", "node2", "node3"]
 #
 # Dont need spam la hor data loss abit ok huan
 discovery.find_peers_interval: 30s 
@@ -132,22 +132,27 @@ gateway.recover_after_time: 60m
 action.destructive_requires_name: true
 #
 # ---------------------------------- SECURITY -----------------------------------
-plugins.security.nodes_dn: 
+plugins.security.nodes_dn:
+  - "CN=*.han.gg, OU=SSL, DC=han, DC=gg"
+  - "CN=osnode1.han.gg, OU=SSL, DC=han, DC=gg"
+  - "CN=osnode2.han.gg, OU=SSL, DC=han, DC=gg"
+  - "CN=osnode3.han.gg, OU=SSL, DC=han, DC=gg"
+  - "CN=kibana.han.gg, OU=SSL, DC=han, DC=gg"
 plugins.security.authcz.admin_dn: 
+  - CN=DADDY, OU=SSL, DC=han, DC=gg
 plugins.security.roles_mapping_resolution: BACKENDROLES_ONLY 
 
 plugins.security.restapi.roles_enabled: ["all_access", "security_rest_api_access"]
 # plugins.security.allow_default_init_securityindex: true
 plugins.security.system_indices.permission.enabled: true
 plugins.security.config_index_name: daddy_han_security_config
-plugins.security.cert.oid:
 plugins.security.enable_snapshot_restore_privilege: false
 plugins.security.check_snapshot_restore_write_privileges: false 
 plugins.security.enable_snapshot_restore_privilege: false 
 plugins.security.check_snapshot_restore_write_privileges: false
 plugins.security.cache.ttl_minutes: 10
 plugins.security.protected_indices.enabled: true 
-plugins.security.protected_indices.roles: []
+plugins.security.protected_indices.roles: ['all_access']
 plugins.security.protected_indices.indices: []
 plugins.security.system_indices.enabled: true 
 plugins.security.system_indices.indices: [".opendistro-alerting-config", ".opendistro-alerting-alert*", ".opendistro-anomaly-results*", ".opendistro-anomaly-detector*", ".opendistro-anomaly-checkpoints", ".opendistro-anomaly-detection-state", ".opendistro-reports-*", ".opendistro-notifications-*", ".opendistro-notebooks", ".opendistro-asynchronous-search-response*"]
@@ -189,16 +194,15 @@ plugins.security.ssl.http.enabled_protocols:
 # plugins.security.ssl.transport.truststore_password:
 
 plugins.security.ssl.transport.enabled: true
-plugins.security.ssl.transport.pemkey_filepath:
-plugins.security.ssl.transport.pemkey_password:
-plugins.security.ssl.transport.pemcert_filepath:
-plugins.security.ssl.transport.pemtrustedcas_filepath:
+#relative to config dir
+plugins.security.ssl.transport.pemkey_filepath: ssl/han.gg.key
+plugins.security.ssl.transport.pemcert_filepath: ssl/han.gg.crt 
+plugins.security.ssl.transport.pemtrustedcas_filepath: ssl/ca.pem
 
 plugins.security.ssl.http.enabled: true 
-plugins.security.ssl.http.pemkey_filepath:
-plugins.security.ssl.http.pemkey_password:
-plugins.security.ssl.http.pemcert_filepath:
-plugins.security.ssl.http.pemtrustedcas_filepath:
+plugins.security.ssl.http.pemkey_filepath: ssl/han.gg.key
+plugins.security.ssl.http.pemcert_filepath: ssl/han.gg.crt 
+plugins.security.ssl.http.pemtrustedcas_filepath: ssl/ca.pem
 
 # ---------------------------------- Remote Store -----------------------------------
 # Controls whether cluster imposes index creation only with remote store enabled
