@@ -103,7 +103,6 @@ network.tcp.reuse_address: true
 # --------------------------------- Discovery ----------------------------------
 # this is where you insert if one is cluster-manager-eligible, since im using only 1 machine, i guess cannot lor. idk why they can't provide as hostnames instead.
 discovery.seed_hosts: ["100.75.9.6"]
-discovery.type: multi-node
 
 # Bootstrap the cluster using an initial set of cluster-manager-eligible nodes:
 #
@@ -118,7 +117,6 @@ discovery.probe.handshake_timeout: 3s
 #
 # Block initial recovery after a full cluster restart until N nodes are started:
 #
-gateway.recover_after_nodes: 2
 gateway.recover_after_data_nodes: 3
 #description in docs like cock bodoh
 gateway.expected_data_nodes: 3
@@ -145,7 +143,7 @@ plugins.security.roles_mapping_resolution: BACKENDROLES_ONLY
 plugins.security.restapi.roles_enabled: ["all_access", "security_rest_api_access"]
 plugins.security.allow_default_init_securityindex: true
 plugins.security.system_indices.permission.enabled: true
-plugins.security.config_index_name: daddy_han_security_config
+plugins.security.config_index_name: .daddy_han_security_config
 plugins.security.enable_snapshot_restore_privilege: false 
 plugins.security.check_snapshot_restore_write_privileges: false
 plugins.security.cache.ttl_minutes: 10
@@ -160,11 +158,8 @@ plugins.security.password.hashing.algorithm: Bcrypt
 plugins.security.password.hashing.bcrypt.rounds: 12
 plugins.security.password.hashing.bcrypt.minor: Y
 
-plugins.security.audit.enable_rest: true
 plugins.security.audit.threadpool.size: 10
 plugins.security.audit.threadpool.max_queue_len: 100000
-plugins.security.audit.ignore_users: 
-  - "Simon"
 plugins.security.audit.type: internal_opensearch
 plugins.security.audit.config.index: daddy_han_audit_logs
 plugins.security.audit.config.type: auditlog
