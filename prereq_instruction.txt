@@ -1,0 +1,12 @@
+https://docs.opensearch.org/latest/install-and-configure/configuring-opensearch/security-settings/
+openssl x509 -in $CERTS_DIR/han.gg.crt -noout -text
+ ^ check the subject name, and SAN - then fill in the deets
+
+https://www.elastic.co/docs/deploy-manage/deploy/self-managed/setup-configuration-memory#bootstrap-memory_lock
+ensure that:
+1) swap in /etc/fstab is commented
+2) bootstrap.memory_lock enabled in yml file
+3) /etc/security/limits.conf has soft and hard memlock to unlimited for user
+4) tmp file appropriately set
+
+Note that env variables CANNOT be set directly in jvm.options, hence I am not using!

@@ -92,8 +92,8 @@ http.publish_host: osnode3.han.gg
 #
 # Set a custom port for HTTP:
 #
-http.port: 9200
-transport.port: 9300
+http.port: 9202
+transport.port: 9302
 #
 # For more information, consult the network module documentation.
 
@@ -133,21 +133,19 @@ action.destructive_requires_name: true
 #
 # ---------------------------------- SECURITY -----------------------------------
 plugins.security.nodes_dn:
-  - "CN=*.han.gg, OU=SSL, DC=han, DC=gg"
-  - "CN=osnode1.han.gg, OU=SSL, DC=han, DC=gg"
-  - "CN=osnode2.han.gg, OU=SSL, DC=han, DC=gg"
-  - "CN=osnode3.han.gg, OU=SSL, DC=han, DC=gg"
-  - "CN=kibana.han.gg, OU=SSL, DC=han, DC=gg"
+  - "CN=osnode1.han.gg, OU=CEO office, O=Han Ltd, L=SG, ST=SG, C=SG"
+  - "CN=osnode2.han.gg, OU=CEO office, O=Han Ltd, L=SG, ST=SG, C=SG"
+  - "CN=osnode3.han.gg, OU=CEO office, O=Han Ltd, L=SG, ST=SG, C=SG"
+  - "CN=kibana.han.gg, OU=CEO office, O=Han Ltd, L=SG, ST=SG, C=SG"
+  - "CN=*.han.gg, OU=CEO office, O=Han Ltd, L=SG, ST=SG, C=SG"
 plugins.security.authcz.admin_dn: 
-  - CN=DADDY, OU=SSL, DC=han, DC=gg
+  - "CN=DADDY, OU=CEO office, O=Han Ltd, L=SG, ST=SG, C=SG"
 plugins.security.roles_mapping_resolution: BACKENDROLES_ONLY 
 
 plugins.security.restapi.roles_enabled: ["all_access", "security_rest_api_access"]
 # plugins.security.allow_default_init_securityindex: true
 plugins.security.system_indices.permission.enabled: true
 plugins.security.config_index_name: daddy_han_security_config
-plugins.security.enable_snapshot_restore_privilege: false
-plugins.security.check_snapshot_restore_write_privileges: false 
 plugins.security.enable_snapshot_restore_privilege: false 
 plugins.security.check_snapshot_restore_write_privileges: false
 plugins.security.cache.ttl_minutes: 10
@@ -165,7 +163,8 @@ plugins.security.password.hashing.bcrypt.minor: Y
 plugins.security.audit.enable_rest: true
 plugins.security.audit.threadpool.size: 10
 plugins.security.audit.threadpool.max_queue_len: 100000
-plugins.security.audit.ignore_users: ["Simon"]
+plugins.security.audit.ignore_users: 
+  - "Simon"
 plugins.security.audit.type: internal_opensearch
 plugins.security.audit.config.index: daddy_han_audit_logs
 plugins.security.audit.config.type: auditlog
