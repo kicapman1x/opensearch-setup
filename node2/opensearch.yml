@@ -47,8 +47,8 @@ script.cache.max_size: 200
 #
 # Use a descriptive name for the node:
 #
-node.name: node2
-node.roles: [ data, ingest ]
+node.name: osnode2.han.gg
+node.roles: [ cluster_manager, data, ingest ]
 # Add custom attributes to the node:
 #
 node.attr.tenant: opensearch
@@ -80,10 +80,10 @@ bootstrap.memory_lock: true
 #
 # Set the bind address to a specific IP (IPv4 or IPv6):
 #
-network.host: 100.75.9.6
+network.host: osnode2.han.gg
 #1 machine 3 nodes HEEEHEEE
-network.bind_host: 100.75.9.6
-network.publish_host: 100.75.9.6
+network.bind_host: osnode2.han.gg
+network.publish_host: osnode2.han.gg
 #http
 http.host: osnode2.han.gg
 #1 machine 3 nodes HEEEHEEE
@@ -102,11 +102,11 @@ network.tcp.reuse_address: true
 #
 # --------------------------------- Discovery ----------------------------------
 # this is where you insert if one is cluster-manager-eligible, since im using only 1 machine, i guess cannot lor. idk why they can't provide as hostnames instead.
-discovery.seed_hosts: ["100.75.9.6"]
+discovery.seed_hosts: ["100.75.9.6:9300","100.75.9.6:9301","100.75.9.6:9302"]
 
 # Bootstrap the cluster using an initial set of cluster-manager-eligible nodes:
 #
-cluster.initial_cluster_manager_nodes: ["node1", "node2", "node3"]
+cluster.initial_cluster_manager_nodes: ["osnode1.han.gg", "osnode2.han.gg", "osnode3.han.gg"]
 #
 # Dont need spam la hor data loss abit ok huan
 discovery.find_peers_interval: 30s 
@@ -131,6 +131,7 @@ action.destructive_requires_name: true
 #
 # ---------------------------------- SECURITY -----------------------------------
 plugins.security.nodes_dn:
+  - "EMAILADDRESS=shan@mugam.com,CN=han.gg,OU=CEO office,O=Han Ltd,L=SG,ST=SG,C=SG"
   - "CN=osnode1.han.gg, OU=CEO office, O=Han Ltd, L=SG, ST=SG, C=SG"
   - "CN=osnode2.han.gg, OU=CEO office, O=Han Ltd, L=SG, ST=SG, C=SG"
   - "CN=osnode3.han.gg, OU=CEO office, O=Han Ltd, L=SG, ST=SG, C=SG"
@@ -138,7 +139,7 @@ plugins.security.nodes_dn:
   - "CN=*.han.gg, OU=CEO office, O=Han Ltd, L=SG, ST=SG, C=SG"
 plugins.security.authcz.admin_dn: 
   - "CN=DADDY, OU=CEO office, O=Han Ltd, L=SG, ST=SG, C=SG"
-plugins.security.roles_mapping_resolution: BACKENDROLES_ONLY 
+plugins.security.roles_mapping_resolution: BOTH 
 
 plugins.security.restapi.roles_enabled: ["all_access", "security_rest_api_access"]
 # plugins.security.allow_default_init_securityindex: true
@@ -164,7 +165,7 @@ plugins.security.audit.type: internal_opensearch
 plugins.security.audit.config.index: daddy_han_audit_logs
 plugins.security.audit.config.type: auditlog
 
-plugins.security.ssl.http.clientauth_mode: REQUIRE
+plugins.security.ssl.http.clientauth_mode: OPTIONAL
 
 plugins.security.ssl.http.enabled_ciphers:
   - "TLS_DHE_RSA_WITH_AES_256_CBC_SHA"
@@ -190,12 +191,12 @@ plugins.security.ssl.http.enabled_protocols:
 plugins.security.ssl.transport.enabled: true
 #relative to config dir
 plugins.security.ssl.transport.pemkey_filepath: ssl/han.gg.key
-plugins.security.ssl.transport.pemcert_filepath: ssl/han.gg.crt 
+plugins.security.ssl.transport.pemcert_filepath: ssl/osnodes.gg.crt 
 plugins.security.ssl.transport.pemtrustedcas_filepath: ssl/ca.pem
 
 plugins.security.ssl.http.enabled: true 
 plugins.security.ssl.http.pemkey_filepath: ssl/han.gg.key
-plugins.security.ssl.http.pemcert_filepath: ssl/han.gg.crt 
+plugins.security.ssl.http.pemcert_filepath: ssl/osnodes.gg.crt 
 plugins.security.ssl.http.pemtrustedcas_filepath: ssl/ca.pem
 
 # ---------------------------------- Remote Store -----------------------------------
