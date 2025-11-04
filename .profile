@@ -17,3 +17,5 @@ alias startosn3='nohup $OS_CLS_HOME/node3/bin/start.sh > /dev/null &'
 alias stoposn1="kill -15 $(ps -ef | grep 'node1' | grep -v grep | awk '{print $2}')"
 alias stoposn2="kill -15 $(ps -ef | grep 'node2' | grep -v grep | awk '{print $2}')"
 alias stoposn3="kill -15 $(ps -ef | grep 'node3' | grep -v grep | awk '{print $2}')"
+
+alias oshealth="curl -ks -XGET https://osnode1.han.gg:9200/_cluster/health -u'admin:$(grep -i admin $SECRETS_DIR/os_cred | cut -d'=' -f2)'"
