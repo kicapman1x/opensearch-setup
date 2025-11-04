@@ -139,7 +139,7 @@ plugins.security.nodes_dn:
   - "CN=kibana.han.gg, OU=CEO office, O=Han Ltd, L=SG, ST=SG, C=SG"
   - "CN=*.han.gg, OU=CEO office, O=Han Ltd, L=SG, ST=SG, C=SG"
 plugins.security.authcz.admin_dn: 
-  - "CN=DADDY, OU=CEO office, O=Han Ltd, L=SG, ST=SG, C=SG"
+  - "EMAILADDRESS=daddy@mugam.com,CN=DADDY,OU=CEO office,O=Han Ltd,L=SG,ST=SG,C=SG"
 plugins.security.roles_mapping_resolution: BOTH
 
 plugins.security.restapi.roles_enabled: ["all_access", "security_rest_api_access"]

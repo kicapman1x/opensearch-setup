@@ -19,3 +19,4 @@ alias stoposn2="kill -15 $(ps -ef | grep 'node2' | grep -v grep | awk '{print $2
 alias stoposn3="kill -15 $(ps -ef | grep 'node3' | grep -v grep | awk '{print $2}')"
 
 alias oshealth="curl -ks -XGET https://osnode1.han.gg:9200/_cluster/health -u'admin:$(grep -i admin $SECRETS_DIR/os_cred | cut -d'=' -f2)'"
+alias ossecurity="$OS_N1_HOME/plugins/opensearch-security/tools/securityadmin.sh -icl -nhnv -cacert $OS_N1_HOME/config/ssl/ca.pem -cert $OS_N1_HOME/config/ssl/osadmin.gg.crt -key $OS_N1_HOME/config/ssl/osadmin-pkcs8.pem -h osnode1.han.gg" 
