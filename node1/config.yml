@@ -32,7 +32,7 @@ config:
             enable_ssl_client_auth: false
             verify_hostnames: true
             hosts:
-            - ldap.han.gg:10389
+            - ldap.han.gg:389
             bind_dn: 'uid=admin,ou=system'
             password: 'password.placeholder'
             userbase: 'ou=streetnibba,dc=han,dc=gg'

@@ -10,3 +10,25 @@ ensure that:
 4) tmp file appropriately set
 
 Note that env variables CANNOT be set directly in jvm.options, hence I am not using!
+
+#SETUP THE FOLLOWING FOR KIBANA TO WORK 
+
+curl -kv -X PUT "https://osnode1.han.gg:9200/_plugins/_security/api/roles/daddy_han_osdb_reader" -u admin:xxxx -H "Content-Type: application/json" -d'
+{
+  "cluster_permissions": [
+    "cluster:monitor/health"
+  ],
+  "index_permissions": [
+    {
+      "index_patterns": [".daddy_han_osdashboard_config*"],
+      "allowed_actions": [
+        "indices:admin/get",
+        "indices:data/read",
+        "indices:monitor",
+        "indices:admin/create",
+        "indices:admin/refresh"
+      ]
+    }
+  ]
+}
+'

@@ -4,16 +4,17 @@ server.name: "OpenSearch Daddy Cluster"
 
 opensearchDashboards.index: ".daddy_han_osdashboard_config"
 
-opensearch.optimizedHealthcheckId: "cluster_id"
+server.ssl.enabled: true
+server.ssl.certificate: "${OD_HOME}/config/ssl/han.gg.crt"
+server.ssl.key: "${OD_HOME}/config/ssl/han.gg.key"
 
+opensearch.optimizedHealthcheckId: "cluster_id"
 opensearch.ssl.certificate: "${OD_HOME}/config/ssl/osnodes.gg.crt"
 opensearch.ssl.key: "${OD_HOME}/config/ssl/han.gg.key"
-
 opensearch.ssl.certificateAuthorities: [ "${OD_HOME}/config/ssl/ca.pem" ]
-
 opensearch.ssl.verificationMode: full
 
-logging.dest: "${OS_CLS_HOME}/kibana/logs"
+logging.dest: "${OS_CLS_HOME}/kibana/logs/kibana.log"
 # logging.silent: false
 # logging.quiet: false
 # logging.verbose: false
@@ -83,9 +84,9 @@ logging.dest: "${OS_CLS_HOME}/kibana/logs"
 # home.disableExperienceModal: false
 
 opensearch.hosts: [https://osnode1.han.gg:9200]
-opensearch.ssl.verificationMode: none
+# opensearch.ssl.verificationMode: none
 opensearch.username: kibanaserver
-opensearch.password: ${od_pw}
+opensearch.password: ${OD_PW}
 opensearch.requestHeadersWhitelist: [authorization, securitytenant]
 
 opensearch_security.multitenancy.enabled: true
