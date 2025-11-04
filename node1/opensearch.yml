@@ -138,7 +138,7 @@ plugins.security.nodes_dn:
   - "CN=osnode3.han.gg, OU=CEO office, O=Han Ltd, L=SG, ST=SG, C=SG"
   - "CN=kibana.han.gg, OU=CEO office, O=Han Ltd, L=SG, ST=SG, C=SG"
   - "CN=*.han.gg, OU=CEO office, O=Han Ltd, L=SG, ST=SG, C=SG"
-plugins.security.authcz.admin_dn: 
+plugins.security.authcz.admin_dn:
   - "EMAILADDRESS=daddy@mugam.com,CN=DADDY,OU=CEO office,O=Han Ltd,L=SG,ST=SG,C=SG"
 plugins.security.roles_mapping_resolution: BOTH
 
