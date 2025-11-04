@@ -53,6 +53,7 @@ node.roles: [ cluster_manager, data, ingest ]
 #
 node.attr.tenant: opensearch
 node.attr.source: daddys-laptop
+node.attr.cluster_id: 1
 #
 # ----------------------------------- Paths ------------------------------------
 #
