@@ -1,0 +1,66 @@
+---
+_meta:
+  type: "config"
+  config_version: 2
+
+config:
+    authc:
+      basic_internal_auth_domain:
+        description: "Authenticate via HTTP Basic against internal users database"
+        http_enabled: true
+        transport_enabled: true
+        order: 0
+        http_authenticator:
+          type: basic
+          challenge: true
+        authentication_backend:
+          type: intern
+      ldap:
+        description: "Authenticate via Daddy Han's ApacheDS server"
+        http_enabled: false
+        transport_enabled: false
+        order: 1
+        http_authenticator:
+          type: basic
+          challenge: false
+        authentication_backend:
+          type: ldap
+          config:
+            enable_ssl: false
+            enable_start_tls: false
+            enable_ssl_client_auth: false
+            verify_hostnames: true
+            hosts:
+            - ldap.han.gg:10389
+            bind_dn: 'uid=admin,ou=system'
+            password: 'password.placeholder'
+            userbase: 'ou=streetnibba,dc=han,dc=gg'
+            usersearch: '(uid={0})'
+            username_attribute: uid
+    authz:
+      roles_from_myldap:
+        description: "Authorize via LDAP or Active Directory"
+        http_enabled: false
+        transport_enabled: false
+        authorization_backend:
+          type: ldap
+          config:
+            enable_ssl: false
+            enable_start_tls: false
+            enable_ssl_client_auth: false
+            verify_hostnames: true
+            hosts:
+            - ldap.han.gg:10389
+            bind_dn: 'uid=admin,ou=system'
+            password: 'password.placeholder'
+            rolebase: 'ou=gangs,dc=han,dc=gg'
+            rolesearch: '(member={0})'
+            userbase: 'ou=streetnibba,dc=han,dc=gg'
+            usersearch: '(uid={0})'
+            skip_users:
+             - 'admin'
+             - 'kibanaserver'
+            userroleattribute: null
+            userrolename: disabled
+            rolename: cn
+            resolve_nested_roles: true

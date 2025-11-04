@@ -225,10 +225,10 @@
 # home.disableWelcomeScreen: false
 # home.disableExperienceModal: false
 
-opensearch.hosts: [https://localhost:9200]
+opensearch.hosts: [https://osnode1.han.gg:9200]
 opensearch.ssl.verificationMode: none
 opensearch.username: kibanaserver
-opensearch.password: kibanaserver
+opensearch.password: ${od_pw}
 opensearch.requestHeadersWhitelist: [authorization, securitytenant]
 
 opensearch_security.multitenancy.enabled: true
