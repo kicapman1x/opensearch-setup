@@ -32,3 +32,88 @@ curl -kv -X PUT "https://osnode1.han.gg:9200/_plugins/_security/api/roles/daddy_
   ]
 }
 '
+
+#TO SET UP LLM MODEL FROM OPENAI WITH OPENSEARCH
+
+curl -k -X PUT "https://osnode1.han.gg:9200/_cluster/settings" -u admin:password -H "Content-Type: application/json" -d'
+{
+    "persistent": {
+        "plugins.ml_commons.trusted_connector_endpoints_regex": [
+          "^https://api\\.openai\\.com/.*$",
+          "^https://api\\.cohere\\.ai/.*$"
+        ]
+    }
+}
+'
+
+curl -k -X PUT "https://osnode1.han.gg:9200/_cluster/settings" -u admin:password -H "Content-Type: application/json" -d'
+{
+    "persistent": {
+        "plugins.ml_commons.connector_access_control_enabled": true
+    }
+}
+'
+
+curl -k -X POST "https://osnode1.han.gg:9200/_plugins/_ml/model_groups/_register" -u admin:password -H "Content-Type: application/json" -d'
+{
+  "name": "openai_model_group",
+  "description": "A model group for external openai models. Daddy abit too poor to host his own local one, no GPU. Pls paynow me if you want 2 fund my homelab journey"
+}
+'
+
+curl -k -X POST "https://osnode1.han.gg:9200/_plugins/_ml/connectors/_create" -u admin:password -H "Content-Type: application/json" -d'
+{
+    "name": "OpenAI Chat Connector",
+    "description": "The connector to public OpenAI model service for GPT 3.5",
+    "version": 1,
+    "protocol": "http",
+    "parameters": {
+        "endpoint": "api.openai.com",
+        "model": "gpt-3.5-turbo"
+    },
+    "credential": {
+        "openAI_key": "***"
+    },
+    "actions": [
+        {
+            "action_type": "predict",
+            "method": "POST",
+            "url": "https://${parameters.endpoint}/v1/chat/completions",
+            "headers": {
+                "Authorization": "Bearer ${credential.openAI_key}"
+            },
+            "request_body": "{ \"model\": \"${parameters.model}\", \"messages\": ${parameters.messages} }"
+        }
+    ]
+}
+'
+
+curl -k -X POST "https://osnode1.han.gg:9200/_plugins/_ml/models/_register" -u admin:password -H "Content-Type: application/json" -d'
+{
+    "name": "openAI-gpt-3.5-turbo",
+    "function_name": "remote",
+    "model_group_id": "UKBaUpoB4sNkG7OfQ5Em",
+    "description": "basic llm model",
+    "connector_id": "VKBmUpoB4sNkG7OfkpFi"
+}
+'
+
+curl -k -X GET "https://osnode1.han.gg:9200/_plugins/_ml/tasks/WKCBUpoB4sNkG7OfA5Hv" -u admin:password 
+
+
+curl -k -X POST "https://osnode1.han.gg:9200/_plugins/_ml/models/XKCBUpoB4sNkG7OfBJF2/_predict" -u admin:password -H "Content-Type: application/json" -d'
+{
+  "parameters": {
+    "messages": [
+      {
+        "role": "system",
+        "content": "You are a helpful assistant for an OpenSearch cluster."
+      },
+      {
+        "role": "user",
+        "content": "Hello!"
+      }
+    ]
+  }
+}
+'
