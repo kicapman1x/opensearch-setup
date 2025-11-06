@@ -1,8 +1,9 @@
 ---
-server.host: "callmidaddy"
+server.host: "0.0.0.0"
 server.name: "OpenSearch Daddy Cluster"
 
-opensearchDashboards.index: ".daddy_han_osdashboard_config"
+opensearchDashboards.index: ".daddy_han_osdashboard"
+opensearchDashboards.configIndex: ".daddy_han_osdashboard_config"
 
 server.ssl.enabled: true
 server.ssl.certificate: "${OD_HOME}/config/ssl/han.gg.crt"
@@ -15,71 +16,18 @@ opensearch.ssl.certificateAuthorities: [ "${OD_HOME}/config/ssl/ca.pem" ]
 opensearch.ssl.verificationMode: full
 
 logging.dest: "${OS_CLS_HOME}/kibana/logs/kibana.log"
-# logging.silent: false
-# logging.quiet: false
-# logging.verbose: false
-
-# opensearchDashboards.branding:
-#   logo:
-#     defaultUrl: ""
-#     darkModeUrl: ""
-#   mark:
-#     defaultUrl: ""
-#     darkModeUrl: ""
-#   loadingLogo:
-#     defaultUrl: ""
-#     darkModeUrl: ""
-#   faviconUrl: ""
-#   applicationTitle: ""
-
-# Set the value of this setting to true to capture region blocked warnings and errors
-# for your map rendering services.
-# map.showRegionBlockedWarning: false%
-
-# Set the value of this setting to false to suppress search usage telemetry
-# for reducing the load of OpenSearch cluster.
-# data.search.usageTelemetry.enabled: false
-
-# 2.4 renames 'wizard.enabled: false' to 'vis_builder.enabled: false'
-# Set the value of this setting to false to disable VisBuilder
-# functionality in Visualization.
-# vis_builder.enabled: false
-
-# 2.4 New Experimental Feature
-# Set the value of this setting to true to enable the experimental multiple data source
-# support feature. Use with caution.
-# data_source.enabled: false
-# Set the value of these settings to customize crypto materials to encryption saved credentials
-# in data sources.
-# data_source.encryption.wrappingKeyName: 'changeme'
-# data_source.encryption.wrappingKeyNamespace: 'changeme'
-# data_source.encryption.wrappingKey: [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 
 ml_commons_dashboards.enabled: true
 assistant.chat.enabled: true
 observability.query_assist.enabled: true
 usageCollection.uiMetric.enabled: true
 
-# 2.18 New Experimental Settings
-# Set the value to true to enable
-# assistant.alertInsight.enabled: false
-# assistant.smartAnomalyDetector.enabled: false
-# assistant.text2viz.enabled: false
-# queryEnhancements.queryAssist.summary.enabled: false
-
-# 3.3 New Core Settings
-# Default to false, set true to not display the explore experience modal
-# home.disableWelcomeScreen: false
-# home.disableExperienceModal: false
-
 opensearch.hosts: [https://osnode1.han.gg:9200]
-# opensearch.ssl.verificationMode: none
 opensearch.username: kibanaserver
-opensearch.password: ${OD_PW}
+opensearch.password: password
 opensearch.requestHeadersWhitelist: [authorization, securitytenant]
 
 opensearch_security.multitenancy.enabled: true
 opensearch_security.multitenancy.tenants.preferred: [Private, Global]
 opensearch_security.readonly_mode.roles: [kibana_read_only]
-# Use this setting if you are running opensearch-dashboards without https
 opensearch_security.cookie.secure: false
